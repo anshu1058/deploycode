@@ -14,7 +14,7 @@ jobs:
 
       - name: Clone Repository from Another Account
         run: |
-          git clone https://anshupal1058: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@github.com/anshupal667/glambot.git
+          git clone https://anshupal667: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@github.com/anshupal667/glambot.git
           cd glambot
           npm install
           npm run build
