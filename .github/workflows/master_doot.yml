@@ -1,0 +1,70 @@
+name: Deploy React App
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment on push to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Current Repository
+        uses: actions/checkout@v3
+
+      - name: Clone Repository from Another Account
+        env:
+          TOKEN: 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
+        run: |
+          git clone https://$TOKEN@github.com/onelogica-com/dootbotcode.git other-repo
+          cd other-repo
+          npm install
+          npm run build
+          zip -r release.zip build/
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-artifact@v3
+        with:
+          name: node-app
+          path: release.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+    permissions:
+      id-token: write  # For Azure login
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip -d dist
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: |
+            {
+              "clientId": "04a0eb6b-4a90-4db1-8255-ebecfb340b1a",
+              "clientSecret": "I-a8Q~eqP_Xo2fNM6nrrnsXqq4tNmwFcSqfzob.1",
+              "subscriptionId": "f4e709ca-ccb8-4e46-b0b0-822db3762d86",
+              "tenantId": "1de61f46-fc12-4067-ab1d-147eb7e21025",
+              "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+              "resourceManagerEndpointUrl": "https://management.azure.com/",
+              "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+              "galleryEndpointUrl": "https://gallery.azure.com/",
+              "managementEndpointUrl": "https://management.core.windows.net/"
+            }
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'Doot'
+          slot-name: 'Production'
+          package: ./dist
