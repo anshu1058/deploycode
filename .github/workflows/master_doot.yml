@@ -14,9 +14,9 @@ jobs:
 
       - name: Clone Repository from Another Account
         env:
-          TOKEN: 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  # Use GitHub secret for token
+          TOKEN: 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  # Use GitHub secret for token
         run: |
-          git clone https://github.com/anshupal667/glambot.git other-repo
+          git clone https://$TOKEN@github.com/anshupal667/glambot.git other-repo
           cd other-repo
           npm install
           npm run build
