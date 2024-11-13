@@ -13,7 +13,7 @@ jobs:
         env:
           TOKENID: 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  # Use GitHub secret for token
         run: |
-          git clone https://$TOKENID@github.com/anshupal667/glambot.git other-repo
+          git clone https://$TOKENID@github.com/anshupal667/glambot.git 
           cd other-repo
           npm install
           npm run build
