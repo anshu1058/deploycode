@@ -16,7 +16,7 @@ jobs:
         env:
           TOKEN: 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
         run: |
-          git clone https://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@github.com/onelogica-com/dootbotcode.git other-repo
+          git clone https://github.com/onelogica-com/glamnbot.git other-repo
           cd other-repo
           npm install
           npm run build
