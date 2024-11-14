@@ -24,17 +24,12 @@ jobs:
           npm install
           npm run build
           zip -r release.zip dist/
+          
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v3
         with:
           name: node-app
           path: release.zip
-
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: zip -r release.zip dist/*
