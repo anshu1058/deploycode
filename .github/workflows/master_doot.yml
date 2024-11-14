@@ -23,7 +23,7 @@ jobs:
           cd glambot
           npm install
           npm run build
-          zip -r release.zip build/
+          zip -r release.zip dist/
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v3
         with:
